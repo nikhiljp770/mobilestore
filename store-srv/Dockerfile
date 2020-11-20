@@ -1,4 +1,4 @@
 FROM alpine
 WORKDIR /usr/mobilestore
 COPY . .
-ENTRYPOINT [ "./store" ]
+ENTRYPOINT [ "./store-srv" ]

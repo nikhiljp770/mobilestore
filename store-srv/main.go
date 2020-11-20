@@ -99,7 +99,7 @@ func main() {
 	dbDatabase := os.Getenv("MYSQL_DATABASE")
 	dbURL = dbUser + ":" + dbPassword + "@tcp(" + dbHost + ")/" + dbDatabase
 	router := mux.NewRouter().StrictSlash(true)
-	router.HandleFunc("/getstore", getstoreshandler).Methods("GET")
+	router.HandleFunc("/getstores", getstoreshandler).Methods("GET")
 	router.HandleFunc("/createstore", createstorehandler).Methods("POST")
 	log.Fatal(http.ListenAndServe(":8080", router))
 }
