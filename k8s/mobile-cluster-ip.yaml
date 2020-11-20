@@ -5,7 +5,7 @@ metadata:
 spec:
   type: ClusterIP
   selector:
-    component: web
+    component: mobile-srv
   ports:
     - port: 7070
       targetPort: 8080
