@@ -16,7 +16,7 @@ spec:
         - name: dockerregistrykey
       containers:
         - name: mobile-srv
-          image: nikhil770/mobile-srv
+          image: nikhil770/mobile-srv:1.0
           ports:
             - containerPort: 8080
           env:
