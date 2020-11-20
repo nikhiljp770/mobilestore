@@ -1,1 +1,118 @@
-c
+CREATE MOBILESTORE IN GITHUB
+
+copy the path of mobilestore in git 
+     
+     $ git clone (path of mobilestore)
+
+CREATE folders for mobilestore
+ MOBILE-SRV
+ STORE-SRV
+ K8S
+
+IN MOBILE-SRV
+    -> Dockerfile
+    -> main.go
+
+IN STORE-SRV
+    -> Dockerfile
+    -> mian.go
+
+IN K8S 
+    -> mysql-deployment.yaml
+    -> mysql-cluster-ip.yaml
+    -> database-persistent-claim.yaml
+    -> mobile-deployment.yaml
+    -> mobile-cluster-ip-service.yaml
+    -> store-deployment.yaml
+    -> store-cluster-ip-service.yaml
+
+AFTER CREATING FILES/CODE 
+ BUILD THE FILES (MOBILE/STORE)
+  
+  $ GOOS=Linux CGO_ENABLED=0 GOARCH=amd64 go build
+
+  $ sudo docker build -t nikhil770/filename .
+
+AFTER BUILDING EXECTUABLE FILES PUSH IT TO GITHUB
+  
+  $ git add .
+   
+  $ git commit -m "adding files to git hub" -add
+
+  $ git push 
+
+OPEN GCP
+ CREATE FOLDER LEARNING
+    -->KUBERNETES ENGINE
+       -->CREATE CLUSTER
+          -->MOBILESTORE 
+    
+AFTER CREATING MOBILESTORE 
+    --> connect
+     copy the command
+    --> run in cloud sheet
+
+       $ git clone [paste the path of github mobilestore]
+
+       $ cd mobilestore
+    
+    THIS COMMAND IS USED TO STORE SECRET KEY OF LOGIN DETAIL OF DOCKER HUB TO PULL IMAGE
+
+       $ kubectl create secret docker-registry dockerregistrykey --docker-username=***** \
+         --docker-password=***** --docker-email=*********@gmail.com
+
+    THIS COMMAND IS USED TO STORE MYSQLPASSWORD 
+
+       $ kubectl create secret generic mysqlpassword --from-literal MYSQLPASSWORD=****
+
+    THIS COMMAND IS USED TO CREATE ALL FILES IN K8S
+
+       $ kubectl apply -f .
+
+    THIS IS USED FOR SECURE CONNECTION 
+
+       $ openssl req -x509 -nodes -days 365 -newkey rsa:4096 -keyout mobilestore.key -out mobiestore.crt -subj "/CN=mobilestore/O=mobilestore"
+
+       $ kubectl create secret tls mobilestore-tls-secret --key mobilestore.key --cert mobilestore.crt
+
+    TO INSTALL HELM 
+
+       $ curl https://raw.githubusercontent.com/helm/helm/master/scripts/get-helm-3 > get_helm.sh
+
+       $ chmod 700 get_helm.sh
+
+       $ ./get_helm.sh
+
+       $ helm repo add stable https://kubernetes-charts.storage.googleapis.com/
+
+    TO CREATE LOAD BALANCER
+
+       $ kubectl create clusterrolebinding cluster-admin-binding \
+         --clusterrole cluster-admin \--user $(gcloud config get-value account)
+
+       $ kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/controller-v0.35.0/deploy/static/provider/cloud/deploy.yaml
+
+       $ kubectl get pods -n ingress-nginx \-l app.kubernetes.io/name=ingress-nginx --watch 
+
+    CREATING DATABASE
+      
+       $ kubectl exec --stdin --tty [mysql name] --/bin/bash
+
+       $ mysql -u root -p
+
+       # create database mobilestore;
+    
+       # create table stores(store_id int auto_increment, 
+                             -> store_name varchar(100) not null unique, 
+                             -> address varchar(200),
+                             -> phone_number varchar(15),
+                             -> primary key(store_id));
+
+       # create table mobile(mobile_id int not null,
+                             -> brand varchar(100),
+                             -> model varchar(100),
+                             -> costprice int,
+                             -> sellingprice int,
+                             -> primary key(mobile_id),
+                             -> foriegn key(store_id) references stores(store_id));
+                        
