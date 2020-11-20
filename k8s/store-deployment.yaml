@@ -6,11 +6,11 @@ spec:
   replicas: 1
   selector:
     matchLabels:
-      component: backend
+      component: store-srv
   template:
     metadata:
       labels:
-        component: backend
+        component: store-srv
     spec:
       imagePullSecrets:
         - name: dockerregistrykey
