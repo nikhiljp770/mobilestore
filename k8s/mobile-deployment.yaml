@@ -1,0 +1,33 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mobile-srv
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      component: backend
+  template:
+    metadata:
+      labels:
+        component: backend
+    spec:
+      imagePullSecrets:
+        - name: dockerregistrykey
+      containers:
+        - name: mobile-srv
+          image: nikhil770/mobile-srv
+          ports:
+            - containerPort: 8080
+          env:
+            - name: MYSQL_USERNAME
+              value: 'root'
+            - name: MYSQL_HOSTNAME
+              value: mysql-cluster-ip-service
+            - name: MYSQL_DATABASE
+              value: 'mobilestore'
+            - name: MYSQL_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: mysqlpassword
+                  key: MYSQLPASSWORD
