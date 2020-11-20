@@ -1,0 +1,24 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: ingress-service
+  annotations:
+    kubernetes.io/ingress.class: nginx
+    nginx.ingress.kubernetes.io/enable-cors: "true"
+spec:
+  rules:
+    - host: mobilestore
+      http:
+        paths:
+          - path: /mobile
+            backend:
+              serviceName: mobile-cluster-ip
+              servicePort: 7070
+          - path: /store
+            backend:
+              serviceName: store-cluster-ip
+              servicePort: 8080
+  tls:
+  - hosts:
+    - mobilestore
+    secretName: mobilestore-tls-secret
