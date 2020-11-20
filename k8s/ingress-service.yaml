@@ -19,6 +19,10 @@ spec:
             backend:
               serviceName: store-cluster-ip
               servicePort: 8080
+          - path: /user
+            backend:
+              serviceName: user-cluster-ip
+              servicePort: 8080
   tls:
   - hosts:
     - mobile-store
