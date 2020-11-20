@@ -84,12 +84,14 @@ func senddata(mobile Mobile) {
 
 	db, err := sql.Open("mysql", dbURL)
 	if err != nil {
-		panic(err.Error())
+		log.Println(err.Error())
+		//panic(err.Error())
 	}
 	defer db.Close()
 	result, err := db.Query("INSERT INTO mobiles(store_id,brand,model,costprice,sellingprice) VALUES(?,?,?,?,?)", mobile.StoreID, mobile.Brand, mobile.Model, mobile.CostPrice, mobile.SellingPrice)
 	if err != nil {
-		panic(err.Error())
+		log.Println(err.Error())
+		//panic(err.Error())
 
 	}
 	fmt.Println(result)

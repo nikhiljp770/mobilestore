@@ -16,7 +16,7 @@ spec:
         - name: dockerregistrykey
       containers:
         - name: store-srv
-          image: nikhil770/store-srv:1.0
+          image: nikhil770/store-srv:5.0
           ports:
             - containerPort: 8080
           env:

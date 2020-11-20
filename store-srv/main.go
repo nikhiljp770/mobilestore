@@ -81,12 +81,14 @@ func senddata(store CreateStores) {
 
 	db, err := sql.Open("mysql", dbURL)
 	if err != nil {
-		panic(err.Error())
+		log.Println(err.Error())
+		//panic(err.Error())
 	}
 	defer db.Close()
 	result, err := db.Query("INSERT INTO stores(store_name,address,phone_number) VALUES(?,?,?)", store.StoreName, store.Address, store.PhoneNumber)
 	if err != nil {
-		panic(err.Error())
+		log.Println(err.Error())
+		//panic(err.Error())
 
 	}
 	fmt.Println(result)
